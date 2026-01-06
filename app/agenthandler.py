@@ -36,6 +36,7 @@ agent = builder.compile(checkpointer=MemorySaver())
 
 
 
+
 def run_agent(user_input: str,thread_id: str = "test_session"):
     """
     Run the agent and display the conversation.
@@ -50,7 +51,7 @@ def run_agent(user_input: str,thread_id: str = "test_session"):
         config={"configurable":{"thread_id":thread_id}}
     )
 
-    for message in result["messages"]:
+    for message in reversed(result["messages"]):
         if isinstance(message,HumanMessage):
             continue
         elif isinstance(message,AIMessage):
