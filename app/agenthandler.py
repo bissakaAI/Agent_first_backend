@@ -31,8 +31,8 @@ builder.add_conditional_edges(
     {"tools": "tools", "__end__": END}
 )
 builder.add_edge("tools", "assistant")
-
-agent = builder.compile(checkpointer=MemorySaver())
+memory=MemorySaver()
+agent = builder.compile(checkpointer=memory)
 
 
 
@@ -63,6 +63,22 @@ def run_agent(user_input: str,thread_id: str = "test_session"):
             print(f"🔧 Tool Result: {message.content[:100]}..." if len(message.content) > 100 else f"🔧 Tool Result: {message.content}")
     
     print(f"\n{'='*70}\n")
- 
+
 print("✅ Test function ready")
 
+
+def get_conversation_history(session_id: str):
+    state = agent.get_state(
+        config={"configurable": {"thread_id": session_id}}
+    )
+
+    messages = state.values.get("messages", [])
+    # print(messages)
+    history = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            history.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            history.append({"role": "assistant", "content": msg.content})
+
+    return history
