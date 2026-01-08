@@ -40,5 +40,5 @@ async def conversation_history(payload: SessionRequest):
 
 
 
-if __name__ == '__main__':
-    uvicorn.run(app,host=os.getenv("host"),port=int(os.getenv("port")))
+# if __name__ == '__main__':
+#     uvicorn.run(app,host=os.getenv("host"),port=int(os.getenv("port")))
