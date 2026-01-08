@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 import uvicorn
 from typing import Optional
-from agenthandler import get_conversation_history
+from agenthandler import get_conversation_history,clear_session
 
 app = FastAPI(title='Simple FastAPI App',version='1.0.0')
 
@@ -38,7 +38,17 @@ async def conversation_history(payload: SessionRequest):
         "history": history
     }
 
-
+#create a delete endpoint
+@app.delete("/sessions/{session_id}")
+def delete_session(session_id:str):
+    try:
+        message=clear_session(session_id)
+        return message
+    except Exception as e:
+        return {"error": str(e)}
+    
+    
+    
 
 # if __name__ == '__main__':
 #     uvicorn.run(app,host=os.getenv("host"),port=int(os.getenv("port")))

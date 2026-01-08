@@ -82,3 +82,8 @@ def get_conversation_history(session_id: str):
             history.append({"role": "assistant", "content": msg.content})
 
     return history
+
+def clear_session(session_id: str):
+    agent.checkpointer.delete_thread(session_id)
+    return {"message":"Session succesfully Deleted"}
+    
